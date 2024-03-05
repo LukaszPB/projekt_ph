@@ -1,0 +1,2 @@
+INSERT INTO Failure (id,failure_type, name, date, potential_cost, potential_date, status, repair_description)
+VALUES (nextval('failure_seq'),'LOW', 'Example Failure', '2024-03-06', 100.00, '2024-03-07', 'NEW', 'To be repaired');
