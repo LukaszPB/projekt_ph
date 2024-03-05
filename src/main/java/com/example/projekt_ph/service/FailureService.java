@@ -14,4 +14,11 @@ public class FailureService {
     public List<Failure> getAll() {
         return failureRepo.findAll();
     }
+    public Failure getFailure(long id){
+        return failureRepo.getReferenceById(id);
+    }
+    public void addFailure(Failure failure)
+    {
+        failureRepo.save(failure);
+    }
 }
