@@ -21,10 +21,10 @@ public class FailureController {
     }
     @DeleteMapping("/Failure/{id}")
     public void delete(@PathVariable Long id) {
-        Failure failure = failureService.getFailure(id);
+        failureService.deleteFailureById(id);
     }
     @PutMapping("/Failure/{id}")
-    public void put() {
+    public void put(long id) {
 
     }
 }

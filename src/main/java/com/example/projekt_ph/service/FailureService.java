@@ -21,4 +21,8 @@ public class FailureService {
     {
         failureRepo.save(failure);
     }
+
+    public void deleteFailureById(long id){
+        failureRepo.deleteById(id);
+    }
 }
