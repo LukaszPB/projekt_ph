@@ -1,17 +1,18 @@
 package com.example.projekt_ph.controller;
 
-import com.example.projekt_ph.enums.FailureType;
-import com.example.projekt_ph.enums.Status;
+import com.example.projekt_ph.model.Failure;
 import com.example.projekt_ph.model.FailureDTO;
 import com.example.projekt_ph.service.FailureService;
-import com.example.projekt_ph.model.Failure;
+import com.example.projekt_ph.validator.EditValidationGroup;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,15 +23,34 @@ public class FailureController {
         return failureService.getAll();
     }
     @PostMapping("/Failure")
-    public void add(@RequestBody FailureDTO failureDTO) {
+    public ResponseEntity<String> add(@RequestBody @Valid FailureDTO failureDTO, BindingResult result) {
+        if(result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
+        }
         failureService.addFailure(failureDTO);
+        return ResponseEntity.ok("Sukces");
     }
     @DeleteMapping("/Failure/{id}")
-    public void delete(@PathVariable("id") long id) {
-        failureService.deleteFailureById(id);
+    public ResponseEntity<String> delete(@PathVariable("id") long id) {
+        try {
+            failureService.deleteFailureById(id);
+            return ResponseEntity.ok("Sukces");
+        }
+        catch (EntityNotFoundException e) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + e.getMessage());
+        }
     }
     @PutMapping("/Failure/{id}")
-    public void put(@PathVariable("id") long id, @RequestBody FailureDTO failureDTO) {
-        failureService.editFailure(id,failureDTO);
+    public ResponseEntity<String> put(
+            @PathVariable("id") long id,
+            @RequestBody @Validated({EditValidationGroup.class}) FailureDTO failureDTO)
+    {
+        try {
+            failureService.editFailure(id,failureDTO);
+            return ResponseEntity.ok("Sukces");
+        }
+        catch (EntityNotFoundException e) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + e.getMessage());
+        }
     }
 }
