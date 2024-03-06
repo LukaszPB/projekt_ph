@@ -6,6 +6,7 @@ import com.example.projekt_ph.model.FailureDTO;
 import com.example.projekt_ph.service.FailureService;
 import com.example.projekt_ph.model.Failure;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -29,7 +30,7 @@ public class FailureController {
         failureService.deleteFailureById(id);
     }
     @PutMapping("/Failure/{id}")
-    public Failure put(@PathVariable("id") long id, @RequestBody FailureDTO failureDTO) {
-        return null;
+    public void put(@PathVariable("id") long id, @RequestBody FailureDTO failureDTO) {
+        failureService.editFailure(id,failureDTO);
     }
 }
