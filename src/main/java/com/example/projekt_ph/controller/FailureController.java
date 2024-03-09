@@ -43,8 +43,12 @@ public class FailureController {
     @PutMapping("/Failure/{id}")
     public ResponseEntity<String> put(
             @PathVariable("id") long id,
-            @RequestBody @Validated({EditValidationGroup.class}) FailureDTO failureDTO)
+            @RequestBody @Validated({EditValidationGroup.class}) FailureDTO failureDTO,
+            BindingResult result)
     {
+        if(result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
+        }
         try {
             failureService.editFailure(id,failureDTO);
             return ResponseEntity.ok().body("{\"message\": \"Sukces\"}");
