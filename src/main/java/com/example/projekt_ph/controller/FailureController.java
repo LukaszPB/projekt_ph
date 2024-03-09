@@ -28,13 +28,13 @@ public class FailureController {
             return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
         failureService.addFailure(failureDTO);
-        return ResponseEntity.ok("Sukces");
+        return ResponseEntity.ok().body("{\"message\": \"Sukces\"}");
     }
     @DeleteMapping("/Failure/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") long id) {
         try {
             failureService.deleteFailureById(id);
-            return ResponseEntity.ok("Sukces");
+            return ResponseEntity.ok().body("{\"message\": \"Sukces\"}");
         }
         catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + e.getMessage());
@@ -47,7 +47,7 @@ public class FailureController {
     {
         try {
             failureService.editFailure(id,failureDTO);
-            return ResponseEntity.ok("Sukces");
+            return ResponseEntity.ok().body("{\"message\": \"Sukces\"}");
         }
         catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + e.getMessage());
