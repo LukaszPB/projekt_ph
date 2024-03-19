@@ -2,7 +2,7 @@ version: "3"
 services:
   db:
     image: postgres:latest
-    container_name: ph-postgres-db
+    container_name: ph-postgres-db-ph
     ports:
       - "5432"
     environment:
@@ -12,7 +12,7 @@ services:
 
   adminer:
     image: adminer
-    container_name: ph-adminer
+    container_name: ph-adminer-ph
     restart: always
     ports:
       - "2080:8080"
